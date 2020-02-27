@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 4293961446164770669}
   - component: {fileID: 4293961446164770668}
   - component: {fileID: 4293961446164770671}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,6 +431,7 @@ MonoBehaviour:
   hasWestWall: 0
   currentNumberOfWalls: 0
   isPartOfColony: 0
+  hasBeenScouted: 0
   mySprite: {fileID: 4293961446575405576}
   northWall: {fileID: 4293961446283753649}
   eastWall: {fileID: 4293961445913508791}

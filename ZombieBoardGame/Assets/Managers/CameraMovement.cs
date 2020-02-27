@@ -9,7 +9,8 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-
         GetComponent<Rigidbody2D>().velocity = movementVector * movementSpeed;
     }
+
+    
 }

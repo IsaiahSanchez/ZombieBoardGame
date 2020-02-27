@@ -18,7 +18,7 @@ public class MainActionChoicePanel : MonoBehaviour
         instance = this;
     }
 
-    private void openMainChoicePanel()
+    public void openMainChoicePanel(int xIndex, int yIndex)
     {
         closeCurrentPanel();
         mainChoicePanel.SetActive(true);

@@ -38,12 +38,22 @@ public class TileMain : MonoBehaviour
         mySprite.sprite = graphicToUse;
     }
 
+    private void Update()
+    {
+        Vector2 mouseAim = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (mouseAim.x < transform.position.x + .4f && mouseAim.x > transform.position.x - .4f 
+                && mouseAim.y < transform.position.y + .4f && mouseAim.y > transform.position.y - .4f
+                && Input.mousePosition.x < 1460 && Input.mousePosition.y > 170f)
+            {
+                MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
+            }
+        }
+    }
+
     public void UpdateTileLook()
     {
-
-
-
-
         //Adding and removing walls as needed
         currentNumberOfWalls = 0;
         if (hasNorthWall)
@@ -91,11 +101,17 @@ public class TileMain : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
+    public void openChoicePanel()
     {
-        //select this tile
-        Debug.Log("" + xLocation + " , " + yLocation);
+        MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
     }
+
+    //private void OnMouseUp()
+    //{
+    //    //select this tile
+    //    MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
+    //    Debug.Log("" + xLocation + " , " + yLocation);
+    //}
 }
 
 public enum TileType {Suburbs, Offices, PoliceStation, Hospital, None};
