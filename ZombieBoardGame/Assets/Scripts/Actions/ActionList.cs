@@ -28,18 +28,24 @@ public class ActionList : MonoBehaviour
 
     }
 
-    public void addAction()
+    public void addAction(Action actionToAdd)
     {
-
+        listOfActions.Add(actionToAdd);
     }
 
     public void endTurn()
     {
-
+        foreach(Action action in listOfActions)
+        {
+            action.numberOfTurnsRemaining--;
+        }
     }
 
     private void checkEachActionForCompletion()
     {
-
+        foreach (Action action in listOfActions)
+        {
+            //go through the prompts
+        }
     }
 }
