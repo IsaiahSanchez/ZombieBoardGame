@@ -12,6 +12,6 @@ public class RaidSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
-        
+        parent.startAction(MissionType.raid, numPeople, numWeapons);
     }
 }

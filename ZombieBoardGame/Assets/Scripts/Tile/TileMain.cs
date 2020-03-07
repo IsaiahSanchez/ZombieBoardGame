@@ -33,6 +33,13 @@ public class TileMain : MonoBehaviour
         UpdateTileLook();
     }
 
+    public void populateTile(int numSurvivors, int numWeapons, int numZombies)
+    {
+        numberOfSurvivors = numSurvivors;
+        numberOfWeapons = numWeapons;
+        numberOfZombiesOccupying = numZombies;
+    }
+
     private void setSprite(Sprite graphicToUse)
     {
         mySprite.sprite = graphicToUse;
@@ -114,4 +121,4 @@ public class TileMain : MonoBehaviour
     //}
 }
 
-public enum TileType {Suburbs, Offices, PoliceStation, Hospital, None};
+public enum TileType {Suburbs, School, PoliceStation, Offices, Hospital, None};

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe8dea1bfbb7f048986634b9e67004b, type: 3}
   m_Name: Hospital
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 4
   tileSprite: {fileID: 21300000, guid: 63c81bf085dfb8345b4bf01ab87713a8, type: 3}
   chanceOfZombies: 1
   maximumNumberOfZombies: 20

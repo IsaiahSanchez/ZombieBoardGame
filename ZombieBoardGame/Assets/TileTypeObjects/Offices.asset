@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe8dea1bfbb7f048986634b9e67004b, type: 3}
   m_Name: Offices
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 3
   tileSprite: {fileID: 21300000, guid: aaf66fca8a920ad438ea3b948b74486d, type: 3}
   chanceOfZombies: 1
   maximumNumberOfZombies: 20

@@ -12,6 +12,6 @@ public class SettleSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
-        
+        parent.startAction(MissionType.settle, numPeople, numWeapons);
     }
 }

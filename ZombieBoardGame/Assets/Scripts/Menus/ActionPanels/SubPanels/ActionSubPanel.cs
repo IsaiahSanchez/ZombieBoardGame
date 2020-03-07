@@ -19,6 +19,11 @@ public class ActionSubPanel : MonoBehaviour
 
     protected void OnEnable()
     {
+        numPeople = 1;
+        numWeapons = 0;
+        tryAddNumPeople(0);
+        tryAddNumWeapons(0);
+        currentSuccessChance = 0;
         currentXLoc = parent.currentXCoord;
         currentYLoc = parent.currentYCoord;
         updateChance();

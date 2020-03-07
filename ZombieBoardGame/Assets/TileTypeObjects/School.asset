@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe8dea1bfbb7f048986634b9e67004b, type: 3}
   m_Name: School
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 1
   tileSprite: {fileID: 21300000, guid: a8d1c13daf2c6334dae47babbcfbbe76, type: 3}
   chanceOfZombies: 0.95
   maximumNumberOfZombies: 15

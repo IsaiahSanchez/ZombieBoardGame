@@ -11,9 +11,11 @@ public class MainActionChoicePanel : MonoBehaviour
     [SerializeField] private ActionPanel scoutPanel;
     [SerializeField] private ActionPanel raidPanel;
     [SerializeField] private ActionPanel settlePanel;
+    [SerializeField] private GameObject tempDuskPanel, tempNightPanel, morningPanel;
 
     [SerializeField] private TextMeshProUGUI tileTypeText;
 
+    private int currentX, currentY;
     private GameObject currentOpenPanel = null;
 
     private void Awake()
@@ -23,6 +25,8 @@ public class MainActionChoicePanel : MonoBehaviour
 
     public void openMainChoicePanel(int xIndex, int yIndex)
     {
+        currentX = xIndex;
+        currentY = yIndex;
         if (TurnManager.instance.stateOfTurn == TurnState.Day)
         {
             closeCurrentPanel();
@@ -42,12 +46,24 @@ public class MainActionChoicePanel : MonoBehaviour
         return Map.instance.getTileAt(x, y).tileType.ToString();
     }
 
-    private void closeCurrentPanel()
+    public void closeCurrentPanel()
     {
         if (currentOpenPanel != null)
         {
             currentOpenPanel.SetActive(false);
         }
+    }
+
+    public void openDuskPanel()
+    {
+        tempDuskPanel.SetActive(true);
+        currentOpenPanel = tempDuskPanel;
+    }
+
+    public void openNightPanel()
+    {
+        tempNightPanel.SetActive(true);
+        currentOpenPanel = tempNightPanel;
     }
 
     public void openPanel(int panelIndex)
@@ -67,14 +83,13 @@ public class MainActionChoicePanel : MonoBehaviour
                 temp = settlePanel;
                 break;
         }
+
         if (temp != null)
         {
             temp.gameObject.SetActive(true);
             currentOpenPanel = temp.gameObject;
-        }
-        else
-        {
-            Debug.Log("faq");
+            temp.currentXCoord = currentX;
+            temp.currentYCoord = currentY;
         }
     }
 }

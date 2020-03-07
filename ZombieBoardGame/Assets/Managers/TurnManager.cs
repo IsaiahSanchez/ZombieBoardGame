@@ -7,11 +7,24 @@ public class TurnManager : MonoBehaviour
     public static TurnManager instance;
 
     public TurnState stateOfTurn = TurnState.Day;
-    public int currentTurn = 0;
+    public int currentTurn = 1;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    public void endDay()
+    {
+        if (stateOfTurn == TurnState.Day)
+        {
+            advanceDay();
+        }
     }
 
     public void advanceDay()
@@ -22,9 +35,43 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
+            ActionList.instance.endTurn();
+            //call save to all save functions
             stateOfTurn = TurnState.Morning;
             currentTurn++;
             //save
+        }
+        startCurrentTurnSection();
+    }
+
+    private void startCurrentTurnSection()
+    {
+        if (stateOfTurn == TurnState.Morning)
+        {
+            //call the actionlists start day to see what should be displayed on the panel
+
+            //close temp panel for late night stuff
+            MainActionChoicePanel.instance.closeCurrentPanel();
+            //open morning panel and initiate the actionList manager
+        }
+        else if (stateOfTurn == TurnState.Day)
+        {
+            //close morning panel
+            MainActionChoicePanel.instance.closeCurrentPanel();
+            //dont think there is anything else that needs done for the dayTime. maybe could show animation of turn number here?
+        }
+        else if (stateOfTurn == TurnState.Dusk)
+        {
+            MainActionChoicePanel.instance.closeCurrentPanel();
+            //open temp panel for the dusk stuff
+            MainActionChoicePanel.instance.openDuskPanel();
+        }
+        else if (stateOfTurn == TurnState.LateNight)
+        {
+            //close temp panel for dusk stuff
+            MainActionChoicePanel.instance.closeCurrentPanel();
+            //open temp panel for late night stuff
+            MainActionChoicePanel.instance.openNightPanel();
         }
     }
 }

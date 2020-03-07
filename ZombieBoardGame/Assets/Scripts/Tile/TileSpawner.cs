@@ -26,16 +26,60 @@ public class TileSpawner : MonoBehaviour
                 TileMain temp = Instantiate(tilePrefab, new Vector2(transform.position.x + indexX, transform.position.y + indexY), Quaternion.identity).GetComponent<TileMain>();
 
                 //setup
-                TileType thisType = pickTileType();
-
-
-                //initialize and save to map
                 int rand = Random.Range(0, 5);
-                temp.init(indexX, indexY, thisType, TypeInformations[rand].tileSprite);
+
+                temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
+
+                //initialize basic data
+                temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
+                //populate tile with the other information
+                temp.populateTile(calculateSurvivorCount(TypeInformations[rand]),
+                                    calculateWeaponCount(TypeInformations[rand]),
+                                    calculateZombieCount(TypeInformations[rand]));
+                //send to map list
                 Map.instance.addTileAt(indexX, indexY, temp);
             }
         }
         spawnBoundaries();
+    }
+
+    private int calculateSurvivorCount(TileTypeInformation info)
+    {
+        float rand = Random.Range(0, 1f);
+        if (rand <= info.chanceOfSurvivors)
+        {
+            return Random.Range(1, info.maxNumberOfSurvivors + 1);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private int calculateWeaponCount(TileTypeInformation info)
+    {
+        float rand = Random.Range(0, 1f);
+        if (rand <= info.chanceOfWeapons)
+        {
+            return Random.Range(1, info.maxNumberOfWeapons + 1);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private int calculateZombieCount(TileTypeInformation info)
+    {
+        float rand = Random.Range(0, 1f);
+        if (rand <= info.chanceOfZombies)
+        {
+            return Random.Range(1, info.maximumNumberOfZombies + 1);
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     private void spawnBoundaries()
@@ -50,12 +94,4 @@ public class TileSpawner : MonoBehaviour
         Instantiate(boundary, new Vector2(transform.position.x + mapSize + .25f, transform.position.y), Quaternion.Euler(new Vector3(0, 0, 90)));
     }
 
-    public TileType pickTileType()
-    {
-        TileType temp = TileType.None;
-        //random probabilities based on each type of tile.
-
-
-        return temp;
-    }
 }
