@@ -48,11 +48,12 @@ public class TurnManager : MonoBehaviour
     {
         if (stateOfTurn == TurnState.Morning)
         {
-            //call the actionlists start day to see what should be displayed on the panel
-
             //close temp panel for late night stuff
             MainActionChoicePanel.instance.closeCurrentPanel();
+
             //open morning panel and initiate the actionList manager
+            MainActionChoicePanel.instance.openMorningPanel();
+            ActionList.instance.checkEachActionForCompletion();
         }
         else if (stateOfTurn == TurnState.Day)
         {

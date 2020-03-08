@@ -17,7 +17,7 @@ public class ActionSubPanel : MonoBehaviour
         parent = GetComponentInParent<ActionPanel>();
     }
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         numPeople = 1;
         numWeapons = 0;

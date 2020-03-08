@@ -11,8 +11,7 @@ public class ScoutSubPanel : ActionSubPanel
     
     protected override void updateChance()
     {
-        //update chance by doing math
-        
+
     }
 
     public override void submitInfoToActionList()

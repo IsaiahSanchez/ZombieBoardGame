@@ -44,6 +44,20 @@ public class ActionPanel : MonoBehaviour
                 }
 
                 break;
+            case TileType.School:
+                switch (typeOfMission)
+                {
+                    case MissionType.scout:
+                        tempTurnAmount = 2;
+                        break;
+                    case MissionType.raid:
+                        tempTurnAmount = 4;
+                        break;
+                    case MissionType.settle:
+                        tempTurnAmount = 3;
+                        break;
+                }
+                break;
             case TileType.Offices:
 
                 switch (typeOfMission)
@@ -100,8 +114,13 @@ public class ActionPanel : MonoBehaviour
                 break;
         }
         action.numberOfTurnsRemaining = tempTurnAmount;
+        action.missionType = typeOfMission;
 
+        action.numberOfPeopleSent = numberOfPeople;
+        action.numberOfWeaponsSent = numberOfWeapons;
         //input into the list
         ActionList.instance.addAction(action);
+        MainActionChoicePanel.instance.closeCurrentPanel();
+        //show some feedback?
     }
 }

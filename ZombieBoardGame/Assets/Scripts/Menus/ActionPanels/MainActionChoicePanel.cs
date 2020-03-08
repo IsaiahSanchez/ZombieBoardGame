@@ -54,6 +54,12 @@ public class MainActionChoicePanel : MonoBehaviour
         }
     }
 
+    public void openMorningPanel()
+    {
+        morningPanel.SetActive(true);
+        currentOpenPanel = morningPanel;
+    }
+
     public void openDuskPanel()
     {
         tempDuskPanel.SetActive(true);

@@ -7,7 +7,14 @@ public class SettleSubPanel : ActionSubPanel
 
     protected override void updateChance()
     {
-        base.updateChance();
+        if (numWeapons > 0)
+        {
+            ChanceText.text = "" + 100 + "%";
+        }
+        else
+        {
+            ChanceText.text = "" + 80 + "%";
+        }
     }
 
     public override void submitInfoToActionList()
