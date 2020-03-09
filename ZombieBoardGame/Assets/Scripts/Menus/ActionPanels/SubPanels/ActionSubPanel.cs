@@ -17,15 +17,16 @@ public class ActionSubPanel : MonoBehaviour
         parent = GetComponentInParent<ActionPanel>();
     }
 
-    protected virtual void OnEnable()
+    public virtual void enable()
     {
         numPeople = 1;
         numWeapons = 0;
-        tryAddNumPeople(0);
-        tryAddNumWeapons(0);
+        numPeopleText.text = numPeople.ToString();
+        numWeaponsText.text = numWeapons.ToString();
         currentSuccessChance = 0;
         currentXLoc = parent.currentXCoord;
         currentYLoc = parent.currentYCoord;
+
         updateChance();
     }
 
@@ -73,6 +74,7 @@ public class ActionSubPanel : MonoBehaviour
 
     public virtual void submitInfoToActionList()
     {
+        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
         parent.startAction(MissionType.none, numPeople, numWeapons);
     }
 }

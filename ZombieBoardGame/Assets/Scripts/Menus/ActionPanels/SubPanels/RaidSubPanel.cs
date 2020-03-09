@@ -5,10 +5,10 @@ using UnityEngine;
 public class RaidSubPanel : ActionSubPanel
 {
 
-    protected override void OnEnable()
+    public override void enable()
     {
+        base.enable();
         numZombiesText.text = Map.instance.getTileAt(currentXLoc, currentYLoc).numberOfZombiesOccupying.ToString();
-        base.OnEnable();
     }
 
     protected override void updateChance()
@@ -25,6 +25,7 @@ public class RaidSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
+        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
         parent.startAction(MissionType.raid, numPeople, numWeapons);
     }
 }

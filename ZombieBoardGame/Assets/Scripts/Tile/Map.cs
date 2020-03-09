@@ -24,6 +24,14 @@ public class Map : MonoBehaviour
         MapList[x, y] = tileToAdd;
     }
 
+    public void refreshAllTiles()
+    {
+        foreach (TileMain tile in MapList)
+        {
+            tile.UpdateTileLook();
+        }
+    }
+
     public void LoadMap()
     {
         Debug.Log("Loaded");

@@ -96,6 +96,7 @@ public class MainActionChoicePanel : MonoBehaviour
             currentOpenPanel = temp.gameObject;
             temp.currentXCoord = currentX;
             temp.currentYCoord = currentY;
+            temp.fillPanelData();
         }
     }
 }

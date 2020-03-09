@@ -11,11 +11,25 @@ public class ScoutSubPanel : ActionSubPanel
     
     protected override void updateChance()
     {
-
+        int numberOfArmedPeople = numPeople - (numPeople - numWeapons);
+        if (numberOfArmedPeople > numPeople)
+        {
+            numberOfArmedPeople = numPeople;
+        }
+        float temp = ((numPeople * PeopleCapabilities.numZombiesOnePersonCanHandle)
+            + (numberOfArmedPeople * (PeopleCapabilities.weaponKillModifier))) / Map.instance.getTileAt(currentXLoc, currentYLoc).numberOfZombiesOccupying;
+        float randomdirection = Random.Range(-1f, 1f);
+        temp += randomdirection * .10f;
+        if (Mathf.Clamp(temp, 0, 1f) == 1f)
+        {
+            temp -= .12f;
+        }
+        ChanceText.text = "" + Mathf.Clamp(temp, 0, 1f) * 100 + "%";
     }
 
     public override void submitInfoToActionList()
     {
+        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
         parent.startAction(MissionType.scout, numPeople, numWeapons);
     }
 }

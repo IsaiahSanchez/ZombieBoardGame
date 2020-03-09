@@ -15,6 +15,7 @@ public class TileMain : MonoBehaviour
     public int currentNumberOfWalls = 0;
     public bool isPartOfColony = false;
     public bool hasBeenScouted = false;
+    public bool hasMissionActiveCurrently = false;
 
     [SerializeField] private SpriteRenderer mySprite;
     [SerializeField] private GameObject northWall, eastWall, southWall, westWall, fogOfWar;
@@ -47,9 +48,9 @@ public class TileMain : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mouseAim = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && fogOfWar.activeSelf == false && isPartOfColony == false && hasMissionActiveCurrently == false)
         {
+            Vector2 mouseAim = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
             if (mouseAim.x < transform.position.x + .4f && mouseAim.x > transform.position.x - .4f 
                 && mouseAim.y < transform.position.y + .4f && mouseAim.y > transform.position.y - .4f
                 && Input.mousePosition.x < 1460 && Input.mousePosition.y > 170f)
@@ -63,48 +64,56 @@ public class TileMain : MonoBehaviour
     {
         //Adding and removing walls as needed
         currentNumberOfWalls = 0;
-        if (hasNorthWall)
+        northWall.SetActive(false);
+        eastWall.SetActive(false);
+        southWall.SetActive(false);
+        westWall.SetActive(false);
+
+
+        if (isPartOfColony == true)
         {
-            currentNumberOfWalls++;
-            northWall.SetActive(true);
-        }
-        else
-        {
-            northWall.SetActive(false);
+            Map currentMap = Map.instance;
+            if (!currentMap.getTileAt(xLocation, yLocation + 1).isPartOfColony)
+            {
+                currentNumberOfWalls++;
+                northWall.SetActive(true);
+            }
+
+            if (!currentMap.getTileAt(xLocation + 1, yLocation).isPartOfColony)
+            {
+                currentNumberOfWalls++;
+                eastWall.SetActive(true);
+            }
+
+            if (!currentMap.getTileAt(xLocation, yLocation - 1).isPartOfColony)
+            {
+                currentNumberOfWalls++;
+                southWall.SetActive(true);
+            }
+
+            if (!currentMap.getTileAt(xLocation - 1, yLocation).isPartOfColony)
+            {
+                currentNumberOfWalls++;
+                westWall.SetActive(true);
+            }
         }
 
-        if (hasEastWall)
-        {
-            currentNumberOfWalls++;
-            eastWall.SetActive(true);
-        }
-        else
-        {
-            eastWall.SetActive(false);
-        }
-
-        if (hasSouthWall)
-        {
-            currentNumberOfWalls++;
-            southWall.SetActive(true);
-        }
-        else
-        {
-            southWall.SetActive(false);
-        }
-
-        if (hasWestWall)
-        {
-            currentNumberOfWalls++;
-            westWall.SetActive(true);
-        }
-        else
-        {
-            westWall.SetActive(false);
-        }
 
         //checking fog of war
-        fogOfWar.SetActive(false);
+        fogOfWar.SetActive(true);
+        if (isPartOfColony)
+        {
+            fogOfWar.SetActive(false);
+            Map currentMap = Map.instance;
+            currentMap.getTileAt(xLocation - 1, yLocation - 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation, yLocation - 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation + 1, yLocation - 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation + 1, yLocation).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation + 1, yLocation + 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation, yLocation + 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation - 1, yLocation + 1).fogOfWar.SetActive(false);
+            currentMap.getTileAt(xLocation - 1, yLocation).fogOfWar.SetActive(false);
+        }
 
     }
 

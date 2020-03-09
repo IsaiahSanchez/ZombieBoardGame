@@ -12,6 +12,7 @@ public class ActionList : MonoBehaviour
     private Action currentAction = null;
     private int numPeopleChange = 0;
     private int numWeaponsChange = 0;
+    private bool lastMissionWasSuccessful = false;
 
     private List<Action> listOfActions = new List<Action>();
     private List<Action> removeList = new List<Action>();
@@ -74,6 +75,29 @@ public class ActionList : MonoBehaviour
         if (currentAction != null)
         {
             //transfer the people and weapons over to the main base
+            MainBase.instance.numberOfPeopleInBase += numPeopleChange;
+            MainBase.instance.numberOfWeaponsInBase += numWeaponsChange;
+            MainBase.instance.numberOfPeopleInBase += currentAction.numberOfPeopleSent;
+            MainBase.instance.numberOfWeaponsInBase += currentAction.numberOfWeaponsSent;
+
+            TileMain thisTile = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord);
+            thisTile.numberOfSurvivors -= numPeopleChange;
+            thisTile.numberOfWeapons -= numWeaponsChange;
+            thisTile.hasMissionActiveCurrently = false;
+
+            if (lastMissionWasSuccessful == true)
+            {
+                if (currentAction.missionType == MissionType.scout)
+                {
+                    thisTile.hasBeenScouted = true;
+                }
+
+                if (currentAction.missionType == MissionType.settle)
+                {
+                    thisTile.isPartOfColony = true;
+                    Map.instance.refreshAllTiles();
+                }
+            }
             currentAction = null;
         }
 
@@ -98,6 +122,7 @@ public class ActionList : MonoBehaviour
             if (rand < chanceOfSuccessValue)
             {
                 Content.text = "Mission was a success!";
+                lastMissionWasSuccessful = true;
                 if (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0)
                 {
                     numPeopleChange = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors;
@@ -111,6 +136,7 @@ public class ActionList : MonoBehaviour
             else
             {
                 Content.text = "Mission was a failure! There were great losses.";
+                lastMissionWasSuccessful = false;
                 numPeopleChange = (int)((1f - chanceOfSuccessValue) * currentAction.numberOfPeopleSent)*-1;
                 if (numPeopleChange <= 0)
                 {

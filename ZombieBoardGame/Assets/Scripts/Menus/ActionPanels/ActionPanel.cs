@@ -7,6 +7,8 @@ public class ActionPanel : MonoBehaviour
     public static ActionPanel instance;
     public int currentXCoord, currentYCoord;
 
+    [SerializeField] private ActionSubPanel mySubPanel;
+
     private void Awake()
     {
         instance = this;
@@ -15,6 +17,11 @@ public class ActionPanel : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    public void fillPanelData()
+    {
+        mySubPanel.enable();
     }
 
     public void startAction(MissionType typeOfMission, int numberOfPeople, int numberOfWeapons)
@@ -118,6 +125,9 @@ public class ActionPanel : MonoBehaviour
 
         action.numberOfPeopleSent = numberOfPeople;
         action.numberOfWeaponsSent = numberOfWeapons;
+
+        MainBase.instance.numberOfPeopleInBase -= numberOfPeople;
+        MainBase.instance.numberOfWeaponsInBase -= numberOfWeapons;
         //input into the list
         ActionList.instance.addAction(action);
         MainActionChoicePanel.instance.closeCurrentPanel();

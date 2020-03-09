@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class TileSpawner : MonoBehaviour
 {
-    [SerializeField] private int mapSize = 10;
+    [SerializeField] public int mapSize = 10;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject boundary;
 
@@ -40,6 +40,7 @@ public class TileSpawner : MonoBehaviour
                 Map.instance.addTileAt(indexX, indexY, temp);
             }
         }
+        setPlayerSpawnArea();
         spawnBoundaries();
     }
 
@@ -80,6 +81,23 @@ public class TileSpawner : MonoBehaviour
         {
             return 0;
         }
+    }
+
+    private void setPlayerSpawnArea()
+    {
+        int xRand = Random.Range(2, mapSize - 2);
+        int yRand = Random.Range(2, mapSize - 2);
+
+        TileMain startingTile = Map.instance.getTileAt(xRand, yRand);
+        startingTile.init(xRand, yRand, TileType.Suburbs, TypeInformations[0].tileSprite);
+        startingTile.isPartOfColony = true;
+        startingTile.numberOfZombiesOccupying = 0;
+        startingTile.numberOfSurvivors = 0;
+        startingTile.numberOfWeapons = 0;
+        //make camera look at the starting tile
+        startingTile.UpdateTileLook();
+
+        //going to create the 8 tiles around the player as kind of a starter learning experience
     }
 
     private void spawnBoundaries()

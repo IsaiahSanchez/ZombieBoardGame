@@ -745,7 +745,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100%
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9807,6 +9807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentXCoord: 0
   currentYCoord: 0
+  mySubPanel: {fileID: 1600395302}
 --- !u!224 &1264647752 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4680313433089949493, guid: e590274f865f8e6429de61af260ad536,
@@ -12109,13 +12110,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666e3d2104ec21247afeb518c8c73e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NameOfColony: {fileID: 0}
-  PeopleText: {fileID: 0}
-  WeaponsText: {fileID: 0}
-  TurnText: {fileID: 0}
+  NameOfColony: {fileID: 591872101}
+  PeopleText: {fileID: 607292593}
+  WeaponsText: {fileID: 2076313600}
+  TurnText: {fileID: 1744669878}
   colonyName: 
-  numberOfPeopleInBase: 1
-  numberOfWeaponsInBase: 1
+  numberOfPeopleInBase: 4
+  numberOfWeaponsInBase: 2
   numberOfWalls: 4
 --- !u!4 &1584340079
 Transform:
@@ -13710,6 +13711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentXCoord: 0
   currentYCoord: 0
+  mySubPanel: {fileID: 1264647753}
 --- !u!1 &1801521199
 GameObject:
   m_ObjectHideFlags: 0
@@ -15372,6 +15374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentXCoord: 0
   currentYCoord: 0
+  mySubPanel: {fileID: 734449081}
 --- !u!1 &2124116159
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,20 +11,21 @@ public class MainBase : MonoBehaviour
     [SerializeField] private TextMeshProUGUI NameOfColony, PeopleText, WeaponsText, TurnText;
 
     public string colonyName = "";
-    public int numberOfPeopleInBase = 1;
-    public int numberOfWeaponsInBase = 1;
+    public int numberOfPeopleInBase = 4;
+    public int numberOfWeaponsInBase = 2;
     public int numberOfWalls = 4;
-
-
-    private void Update()
-    {
-            
-    }
 
     private void Awake()
     {
         instance = this;
     }
 
-    
+
+    private void Update()
+    {
+        NameOfColony.text = colonyName;
+        PeopleText.text = numberOfPeopleInBase.ToString();
+        WeaponsText.text = numberOfWeaponsInBase.ToString();
+        TurnText.text = TurnManager.instance.currentTurn.ToString();
+    }
 }

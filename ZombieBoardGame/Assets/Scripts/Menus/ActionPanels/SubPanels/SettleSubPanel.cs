@@ -19,6 +19,7 @@ public class SettleSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
+        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
         parent.startAction(MissionType.settle, numPeople, numWeapons);
     }
 }
