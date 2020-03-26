@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1513784077
 Transform:
   m_ObjectHideFlags: 0
@@ -432,6 +432,7 @@ MonoBehaviour:
   currentNumberOfWalls: 0
   isPartOfColony: 0
   hasBeenScouted: 0
+  hasMissionActiveCurrently: 0
   mySprite: {fileID: 4293961446575405576}
   northWall: {fileID: 4293961446283753649}
   eastWall: {fileID: 4293961445913508791}

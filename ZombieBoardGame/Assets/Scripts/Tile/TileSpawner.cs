@@ -8,6 +8,7 @@ public class TileSpawner : MonoBehaviour
     [SerializeField] public int mapSize = 10;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject boundary;
+    [SerializeField] private TileWeight weights;
 
     public TileTypeInformation[] TypeInformations = new TileTypeInformation[5];
 
@@ -22,26 +23,78 @@ public class TileSpawner : MonoBehaviour
         {
             for (int indexY = 0; indexY < mapSize; indexY++)
             {
-                //create
-                TileMain temp = Instantiate(tilePrefab, new Vector2(transform.position.x + indexX, transform.position.y + indexY), Quaternion.identity).GetComponent<TileMain>();
-
-                //setup
-                int rand = Random.Range(0, 5);
-
-                temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
-
-                //initialize basic data
-                temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
-                //populate tile with the other information
-                temp.populateTile(calculateSurvivorCount(TypeInformations[rand]),
-                                    calculateWeaponCount(TypeInformations[rand]),
-                                    calculateZombieCount(TypeInformations[rand]));
-                //send to map list
-                Map.instance.addTileAt(indexX, indexY, temp);
+                //createOldMapTile(indexX, indexY);
+                pickMapTile(indexX , indexY);
             }
         }
         setPlayerSpawnArea();
         spawnBoundaries();
+    }
+
+    private void pickMapTile(int x , int y)
+    {
+        //create
+        TileMain temp = Instantiate(tilePrefab, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity).GetComponent<TileMain>();
+
+        float rand = Random.Range(0, weights.hospitalWeight);
+        TileTypeInformation chosenType;
+        //0,3,1,2,4
+
+
+        if (rand <= weights.suburbWeight)
+        {
+            chosenType = TypeInformations[0];
+        }
+        else if (rand <= weights.officeWeight)
+        {
+            chosenType = TypeInformations[3];
+        }
+        else if (rand <= weights.schoolWeight)
+        {
+            chosenType = TypeInformations[1];
+        }
+        else if (rand <= weights.policeStationWeight)
+        {
+            chosenType = TypeInformations[2];
+        }
+        else if (rand <= weights.hospitalWeight)
+        {
+            chosenType = TypeInformations[4];
+        }
+        else
+        {
+            chosenType = TypeInformations[0];
+        }
+
+
+        temp.init(x, y, chosenType.tileType, chosenType.tileSprite);
+        temp.populateTile(calculateSurvivorCount(chosenType),
+                            calculateWeaponCount(chosenType),
+                            calculateZombieCount(chosenType));
+
+        temp.name = "" + x + "," + y;
+        Map.instance.addTileAt(x, y, temp);
+    }
+
+    private void createOldMapTile(int indexX, int indexY)
+    {
+        //create
+        TileMain temp = Instantiate(tilePrefab, new Vector2(transform.position.x + indexX, transform.position.y + indexY), Quaternion.identity).GetComponent<TileMain>();
+
+        //setup
+        int rand = Random.Range(0, 5);
+
+        temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
+
+        //initialize basic data
+        temp.init(indexX, indexY, TypeInformations[rand].tileType, TypeInformations[rand].tileSprite);
+        //populate tile with the other information
+        temp.populateTile(calculateSurvivorCount(TypeInformations[rand]),
+                            calculateWeaponCount(TypeInformations[rand]),
+                            calculateZombieCount(TypeInformations[rand]));
+        //send to map list
+        temp.name = "" + indexX + "," + indexY;
+        Map.instance.addTileAt(indexX, indexY, temp);
     }
 
     private int calculateSurvivorCount(TileTypeInformation info)
@@ -95,7 +148,7 @@ public class TileSpawner : MonoBehaviour
         startingTile.numberOfSurvivors = 0;
         startingTile.numberOfWeapons = 0;
         //make camera look at the starting tile
-        startingTile.UpdateTileLook();
+        Map.instance.refreshAllTiles();
 
         //going to create the 8 tiles around the player as kind of a starter learning experience
     }

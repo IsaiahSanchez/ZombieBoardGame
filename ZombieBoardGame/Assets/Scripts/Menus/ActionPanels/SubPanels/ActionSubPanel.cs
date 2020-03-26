@@ -37,10 +37,10 @@ public class ActionSubPanel : MonoBehaviour
         {
             numPeople += (amtToChange * -1);
         }
-        //else if (numPeople > MainBase.instance.numberOfPeopleInBase)
-        //{
-        //    numPeople = MainBase.instance.numberOfPeopleInBase;
-        //}
+        else if (numPeople > MainBase.instance.numberOfPeopleInBase)
+        {
+            numPeople = MainBase.instance.numberOfPeopleInBase;
+        }
         //do the check to see if we are trying to send more people than we have.
 
         //update numPeople
@@ -55,10 +55,10 @@ public class ActionSubPanel : MonoBehaviour
         {
             numWeapons += (amtToChange * -1);
         }
-        //else if (numWeapons > MainBase.instance.numberOfWeaponsInBase)
-        //{
-        //    numWeapons = MainBase.instance.numberOfWeaponsInBase;
-        //}
+        else if (numWeapons > MainBase.instance.numberOfWeaponsInBase)
+        {
+            numWeapons = MainBase.instance.numberOfWeaponsInBase;
+        }
         //do the check to see if we are trying to send more weapons than we have.
 
         //update numWeapon

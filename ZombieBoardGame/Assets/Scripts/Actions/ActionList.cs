@@ -23,19 +23,40 @@ public class ActionList : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
+    public SaveAction[] saveToFile()
     {
-        //load actions from save if they exist
+        SaveAction[] actions = new SaveAction[listOfActions.Count];
+
+        for (int index = 0; index < actions.Length; index++)
+        {
+            actions[index].tileXCoord = listOfActions[index].tileXCoord;
+            actions[index].tileYCoord = listOfActions[index].tileYCoord;
+            actions[index].numberOfTurnsRemaining = listOfActions[index].numberOfTurnsRemaining;
+            actions[index].numberOfPeopleSent = listOfActions[index].numberOfPeopleSent;
+            actions[index].numberOfWeaponsSent = listOfActions[index].numberOfWeaponsSent;
+            actions[index].missionType = listOfActions[index].missionType;
+        }
+
+        return actions;
     }
 
-    private void loadFromFile()
+    public void loadFromFile(SaveAction[] actionsSaved)
     {
+        if (actionsSaved.Length > 0)
+        {
+            for (int index = 0; index < actionsSaved.Length; index++)
+            {
+                Action currentSavedAction = new Action();
+                currentSavedAction.tileXCoord = actionsSaved[index].tileXCoord;
+                currentSavedAction.tileYCoord = actionsSaved[index].tileYCoord;
+                currentSavedAction.numberOfTurnsRemaining = actionsSaved[index].numberOfTurnsRemaining;
+                currentSavedAction.numberOfPeopleSent = actionsSaved[index].numberOfPeopleSent;
+                currentSavedAction.numberOfWeaponsSent = actionsSaved[index].numberOfWeaponsSent;
+                currentSavedAction.missionType = actionsSaved[index].missionType;
 
-    }
-
-    private void saveToFile()
-    {
-
+                addAction(currentSavedAction);
+            }
+        }
     }
 
     public void addAction(Action actionToAdd)
@@ -92,6 +113,11 @@ public class ActionList : MonoBehaviour
                     thisTile.hasBeenScouted = true;
                 }
 
+                if (currentAction.missionType == MissionType.raid)
+                {
+                    thisTile.numberOfZombiesOccupying = 0;
+                }
+
                 if (currentAction.missionType == MissionType.settle)
                 {
                     thisTile.isPartOfColony = true;
@@ -123,12 +149,12 @@ public class ActionList : MonoBehaviour
             {
                 Content.text = "Mission was a success!";
                 lastMissionWasSuccessful = true;
-                if (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0)
+                if ((Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.raid) == true || (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.settle) == true)
                 {
                     numPeopleChange = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors;
                 }
 
-                if (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfWeapons > 0)
+                if ((Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.raid) == true || (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.settle) == true) 
                 {
                     numWeaponsChange = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfWeapons;
                 }
@@ -154,8 +180,33 @@ public class ActionList : MonoBehaviour
                 }
             }
 
-            peopleChange.text = "Change in people : " + numPeopleChange;
-            weaponsChange.text = "Change in weapons : " + numWeaponsChange;
+            if (Mathf.Abs(numPeopleChange) > 0)
+            {
+                peopleChange.text = "Change in people : " + numPeopleChange;
+            }
+            else
+            {
+                peopleChange.text = "";
+            }
+
+            if (Mathf.Abs(numWeaponsChange) > 0)
+            {
+                weaponsChange.text = "Change in weapons : " + numWeaponsChange;
+            }
+            else
+            {
+                weaponsChange.text = "";
+            }
+
+            if (currentAction.missionType == MissionType.scout)
+            {
+                peopleChange.text = "The " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType.ToString() + " was scouted!";
+            }
+
+            if (currentAction.missionType == MissionType.settle)
+            {
+                peopleChange.text = "You have settled this area and built walls to protect your people";        
+            }
         }
         else
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class MainActionChoicePanel : MonoBehaviour
@@ -12,6 +13,8 @@ public class MainActionChoicePanel : MonoBehaviour
     [SerializeField] private ActionPanel raidPanel;
     [SerializeField] private ActionPanel settlePanel;
     [SerializeField] private GameObject tempDuskPanel, tempNightPanel, morningPanel;
+
+    [SerializeField] private Button scoutButton, raidButton, settleButton;
 
     [SerializeField] private TextMeshProUGUI tileTypeText;
 
@@ -33,6 +36,26 @@ public class MainActionChoicePanel : MonoBehaviour
             tileTypeText.text = findOutWhatTileType(xIndex, yIndex);
             mainChoicePanel.SetActive(true);
             currentOpenPanel = mainChoicePanel;
+
+            if (Map.instance.getTileAt(xIndex, yIndex).hasBeenScouted == true)
+            {
+                scoutButton.enabled = false;
+                raidButton.enabled = true;
+                if (Map.instance.getTileAt(xIndex, yIndex).numberOfZombiesOccupying > 0)
+                {
+                    settleButton.enabled = false;
+                }
+                else
+                {
+                    settleButton.enabled = true;
+                }
+            }
+            else
+            {
+                scoutButton.enabled = true;
+                raidButton.enabled = false;
+                settleButton.enabled = false;
+            }
 
             //check cases for each different situation
             //if havent scouted then you shouldn't be able to click settle and maybe even raid?

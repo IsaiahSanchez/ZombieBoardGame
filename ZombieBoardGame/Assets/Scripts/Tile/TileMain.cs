@@ -73,53 +73,144 @@ public class TileMain : MonoBehaviour
         if (isPartOfColony == true)
         {
             Map currentMap = Map.instance;
-            if (!currentMap.getTileAt(xLocation, yLocation + 1).isPartOfColony)
+
+            if (yLocation < currentMap.mapSize - 1)
+            {
+                if (!currentMap.getTileAt(xLocation, yLocation + 1).isPartOfColony)
+                {
+                    currentNumberOfWalls++;
+                    northWall.SetActive(true);
+                }
+            }
+            else
             {
                 currentNumberOfWalls++;
                 northWall.SetActive(true);
             }
 
-            if (!currentMap.getTileAt(xLocation + 1, yLocation).isPartOfColony)
+            if (xLocation < currentMap.mapSize - 1)
+            {
+                if (!currentMap.getTileAt(xLocation + 1, yLocation).isPartOfColony)
+                {
+                    currentNumberOfWalls++;
+                    eastWall.SetActive(true);
+                }
+            }
+            else
             {
                 currentNumberOfWalls++;
                 eastWall.SetActive(true);
             }
 
-            if (!currentMap.getTileAt(xLocation, yLocation - 1).isPartOfColony)
+            if (yLocation > 0)
+            {
+                if (!currentMap.getTileAt(xLocation, yLocation - 1).isPartOfColony)
+                {
+                    currentNumberOfWalls++;
+                    southWall.SetActive(true);
+                }
+            }
+            else
             {
                 currentNumberOfWalls++;
                 southWall.SetActive(true);
             }
 
-            if (!currentMap.getTileAt(xLocation - 1, yLocation).isPartOfColony)
+            if (xLocation > 0)
+            {
+                if (!currentMap.getTileAt(xLocation - 1, yLocation).isPartOfColony)
+                {
+                    currentNumberOfWalls++;
+                    westWall.SetActive(true);
+                }
+            }
+            else
             {
                 currentNumberOfWalls++;
                 westWall.SetActive(true);
             }
         }
 
+        if (currentNumberOfWalls > 0)
+        {
+            MainBase.instance.numberOfWalls += currentNumberOfWalls;
+        }
 
         //checking fog of war
-        fogOfWar.SetActive(true);
+        //fogOfWar.SetActive(true);
+
+        //StartCoroutine(checkAndSetFogOfWarNearBase());
+    }
+
+    private IEnumerator checkAndSetFogOfWarNearBase()
+    {
+        yield return new WaitForEndOfFrame();
         if (isPartOfColony)
         {
             fogOfWar.SetActive(false);
             Map currentMap = Map.instance;
-            currentMap.getTileAt(xLocation - 1, yLocation - 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation, yLocation - 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation + 1, yLocation - 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation + 1, yLocation).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation + 1, yLocation + 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation, yLocation + 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation - 1, yLocation + 1).fogOfWar.SetActive(false);
-            currentMap.getTileAt(xLocation - 1, yLocation).fogOfWar.SetActive(false);
-        }
 
+
+            if(xLocation > 0)
+            {
+                if (yLocation > 0)
+                {
+                    currentMap.getTileAt(xLocation - 1, yLocation - 1).fogOfWar.SetActive(false);
+                }
+
+                if (yLocation < currentMap.mapSize - 1)
+                {
+                    currentMap.getTileAt(xLocation - 1, yLocation + 1).fogOfWar.SetActive(false);
+                }
+
+                currentMap.getTileAt(xLocation - 1, yLocation).fogOfWar.SetActive(false);
+            }
+
+            if (xLocation < currentMap.mapSize - 1)
+            {
+                if (yLocation > 0)
+                {
+                    currentMap.getTileAt(xLocation + 1, yLocation - 1).fogOfWar.SetActive(false);
+                }
+
+                if (yLocation < Map.instance.MapList.Length - 2)
+                {
+                    currentMap.getTileAt(xLocation + 1, yLocation + 1).fogOfWar.SetActive(false);
+                }
+                    
+                currentMap.getTileAt(xLocation + 1, yLocation).fogOfWar.SetActive(false);
+            }
+
+            if (yLocation > 0)
+            {
+                currentMap.getTileAt(xLocation, yLocation - 1).fogOfWar.SetActive(false);
+            }
+
+            if (yLocation < currentMap.mapSize - 1)
+            {
+                currentMap.getTileAt(xLocation, yLocation + 1).fogOfWar.SetActive(false);
+            }
+        }
     }
+
 
     public void openChoicePanel()
     {
         MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
+    }
+
+    public SaveTile createSaveOfTile()
+    {
+        SaveTile temp = new SaveTile();
+
+        temp.tileType = tileType;
+        temp.numberOfZombiesOccupying = numberOfZombiesOccupying;
+        temp.numberOfSurvivors = numberOfSurvivors;
+        temp.numberOfWeapons = numberOfWeapons;
+        temp.isPartOfColony = isPartOfColony;
+        temp.hasBeenScouted = hasBeenScouted;
+
+        return temp;
     }
 
     //private void OnMouseUp()

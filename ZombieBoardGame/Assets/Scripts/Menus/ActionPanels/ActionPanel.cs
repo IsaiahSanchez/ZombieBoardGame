@@ -46,7 +46,7 @@ public class ActionPanel : MonoBehaviour
                         break;
                     case MissionType.settle:
                         //maybe make this scale down based on how many walls need built
-                        tempTurnAmount = 3;
+                        tempTurnAmount = checkNumberOfWallsForTile(currentXCoord, currentYCoord);
                         break;
                 }
 
@@ -61,7 +61,7 @@ public class ActionPanel : MonoBehaviour
                         tempTurnAmount = 4;
                         break;
                     case MissionType.settle:
-                        tempTurnAmount = 3;
+                        tempTurnAmount = checkNumberOfWallsForTile(currentXCoord, currentYCoord);
                         break;
                 }
                 break;
@@ -77,7 +77,7 @@ public class ActionPanel : MonoBehaviour
                         break;
                     case MissionType.settle:
                         //maybe make this scale down based on how many walls need built
-                        tempTurnAmount = 3;
+                        tempTurnAmount = checkNumberOfWallsForTile(currentXCoord, currentYCoord);
                         break;
                 }
                 
@@ -94,7 +94,7 @@ public class ActionPanel : MonoBehaviour
                         break;
                     case MissionType.settle:
                         //maybe make this scale down based on how many walls need built
-                        tempTurnAmount = 3;
+                        tempTurnAmount = checkNumberOfWallsForTile(currentXCoord, currentYCoord);
                         break;
                 }
 
@@ -111,7 +111,7 @@ public class ActionPanel : MonoBehaviour
                         break;
                     case MissionType.settle:
                         //maybe make this scale down based on how many walls need built
-                        tempTurnAmount = 3;
+                        tempTurnAmount = checkNumberOfWallsForTile(currentXCoord, currentYCoord);
                         break;
                 }
 
@@ -120,6 +120,7 @@ public class ActionPanel : MonoBehaviour
                 tempTurnAmount = 0;
                 break;
         }
+        
         action.numberOfTurnsRemaining = tempTurnAmount;
         action.missionType = typeOfMission;
 
@@ -132,5 +133,48 @@ public class ActionPanel : MonoBehaviour
         ActionList.instance.addAction(action);
         MainActionChoicePanel.instance.closeCurrentPanel();
         //show some feedback?
+    }
+
+    private int checkNumberOfWallsForTile(int x, int y)
+    {
+        int temp = 4;
+        Map theMap = Map.instance;
+        TileMain thisTile = theMap.getTileAt(x, y);
+
+
+        if (y < theMap.mapSize - 1)
+        {
+            if (theMap.getTileAt(x, y + 1).isPartOfColony)
+            {
+                temp--;
+            }
+        }
+
+        if (x < theMap.mapSize - 1)
+        {
+            if (theMap.getTileAt(x + 1, y).isPartOfColony)
+            {
+                temp--;
+            }
+        }
+
+        if (y > 0)
+        {
+            if (theMap.getTileAt(x, y - 1).isPartOfColony)
+            {
+                temp--;
+            }
+        }
+
+        if (x > 0)
+        {
+            if (theMap.getTileAt(x - 1, y).isPartOfColony)
+            {
+                temp--;
+            }
+        }
+        
+
+        return temp;
     }
 }
