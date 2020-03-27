@@ -7,21 +7,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveDataManager : MonoBehaviour
 {
+    public static SaveDataManager instance;
+
     private void Awake()
     {
-        
+        instance = this;
     }
-
-
 
     public void saveGame()
     {
         //create save data objects
         SaveData saveData = new SaveData();
         //save map
-        saveMap(saveData);
+        saveData.savedMap = saveMap(saveData);
         //save actions
-        saveActions(saveData);
+        saveData.savedAction = saveActions(saveData);
         //save misc
 
 
@@ -55,9 +55,7 @@ public class SaveDataManager : MonoBehaviour
 
     }
 
-
-
-    private void saveMap(SaveData data)
+    private SaveTile[,] saveMap(SaveData data)
     {
         data.savedMap = new SaveTile[Map.instance.mapSize, Map.instance.mapSize];
 
@@ -68,11 +66,12 @@ public class SaveDataManager : MonoBehaviour
                 data.savedMap[x, y] = Map.instance.MapList[x, y].createSaveOfTile();
             }
         }
+        return data.savedMap;
     }
 
-    private void saveActions(SaveData data)
+    private SaveAction[] saveActions(SaveData data)
     {
-        data.savedAction = ActionList.instance.saveToFile();
+        return ActionList.instance.saveToFile();
     }
 
 

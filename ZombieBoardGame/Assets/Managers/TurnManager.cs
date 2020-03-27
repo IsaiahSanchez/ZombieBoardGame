@@ -47,6 +47,7 @@ public class TurnManager : MonoBehaviour
         {
             ActionList.instance.endTurn();
             //call save to all save functions
+            SaveDataManager.instance.saveGame();
             stateOfTurn = TurnState.Morning;
             currentTurn++;
             //save

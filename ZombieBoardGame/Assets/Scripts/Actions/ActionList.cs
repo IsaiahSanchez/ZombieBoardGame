@@ -29,12 +29,15 @@ public class ActionList : MonoBehaviour
 
         for (int index = 0; index < actions.Length; index++)
         {
-            actions[index].tileXCoord = listOfActions[index].tileXCoord;
-            actions[index].tileYCoord = listOfActions[index].tileYCoord;
-            actions[index].numberOfTurnsRemaining = listOfActions[index].numberOfTurnsRemaining;
-            actions[index].numberOfPeopleSent = listOfActions[index].numberOfPeopleSent;
-            actions[index].numberOfWeaponsSent = listOfActions[index].numberOfWeaponsSent;
-            actions[index].missionType = listOfActions[index].missionType;
+            SaveAction tempAction = new SaveAction();
+            tempAction.tileXCoord = listOfActions[index].tileXCoord;
+            tempAction.tileYCoord = listOfActions[index].tileYCoord;
+            tempAction.numberOfTurnsRemaining = listOfActions[index].numberOfTurnsRemaining;
+            tempAction.numberOfPeopleSent = listOfActions[index].numberOfPeopleSent;
+            tempAction.numberOfWeaponsSent = listOfActions[index].numberOfWeaponsSent;
+            tempAction.missionType = listOfActions[index].missionType;
+
+            actions[index] = tempAction;
         }
 
         return actions;
@@ -42,7 +45,7 @@ public class ActionList : MonoBehaviour
 
     public void loadFromFile(SaveAction[] actionsSaved)
     {
-        if (actionsSaved.Length > 0)
+        if (actionsSaved != null)
         {
             for (int index = 0; index < actionsSaved.Length; index++)
             {

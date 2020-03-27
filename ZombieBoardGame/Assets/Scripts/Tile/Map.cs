@@ -50,6 +50,7 @@ public class Map : MonoBehaviour
                 MapList[x, y].hasBeenScouted = tilesSaved[x, y].hasBeenScouted;
 
                 MapList[x, y].UpdateTileLook();
+                MapList[x, y].updateGraphic();
             }
         }
     }

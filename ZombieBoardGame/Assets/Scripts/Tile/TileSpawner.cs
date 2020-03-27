@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 [System.Serializable]
 public class TileSpawner : MonoBehaviour
 {
+    public static TileSpawner instance;
+
     [SerializeField] public int mapSize = 10;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject boundary;
     [SerializeField] private TileWeight weights;
 
     public TileTypeInformation[] TypeInformations = new TileTypeInformation[5];
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -29,6 +38,19 @@ public class TileSpawner : MonoBehaviour
         }
         setPlayerSpawnArea();
         spawnBoundaries();
+
+        //check if we have a save file. If we have one then call the load from the menu
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            Debug.Log("File found at : " + Application.persistentDataPath.ToString() + "/gamesave.save" + " Now Loading");
+            StartCoroutine(waitToLoadGame());
+        }
+    }
+
+    private IEnumerator waitToLoadGame()
+    {
+        yield return new WaitForSeconds(.05f);
+        SaveDataManager.instance.loadGame();
     }
 
     private void pickMapTile(int x , int y)

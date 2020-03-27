@@ -137,9 +137,32 @@ public class TileMain : MonoBehaviour
         }
 
         //checking fog of war
-        //fogOfWar.SetActive(true);
+        fogOfWar.SetActive(true);
 
-        //StartCoroutine(checkAndSetFogOfWarNearBase());
+        StartCoroutine(checkAndSetFogOfWarNearBase());
+    }
+
+    public void updateGraphic()
+    {
+        switch (tileType)
+        {
+            case TileType.Suburbs:
+                setSprite(TileSpawner.instance.TypeInformations[0].tileSprite);
+                break;
+            case TileType.School:
+                setSprite(TileSpawner.instance.TypeInformations[1].tileSprite);
+                break;
+            case TileType.PoliceStation:
+                setSprite(TileSpawner.instance.TypeInformations[2].tileSprite);
+                break;
+            case TileType.Offices:
+                setSprite(TileSpawner.instance.TypeInformations[3].tileSprite);
+                break;
+            case TileType.Hospital:
+                setSprite(TileSpawner.instance.TypeInformations[4].tileSprite);
+                break;
+
+        }
     }
 
     private IEnumerator checkAndSetFogOfWarNearBase()
