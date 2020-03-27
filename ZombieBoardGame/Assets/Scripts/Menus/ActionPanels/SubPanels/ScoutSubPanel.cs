@@ -24,7 +24,7 @@ public class ScoutSubPanel : ActionSubPanel
         {
             temp -= .12f;
         }
-        ChanceText.text = "" + Mathf.Clamp(temp, 0, 1f) * 100 + "%";
+        ChanceText.text = "" + (int)(Mathf.Clamp(temp, 0, 1f) * 100) + "%";
     }
 
     public override void submitInfoToActionList()

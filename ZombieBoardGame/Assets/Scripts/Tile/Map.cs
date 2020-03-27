@@ -49,9 +49,9 @@ public class Map : MonoBehaviour
                 MapList[x, y].isPartOfColony = tilesSaved[x, y].isPartOfColony;
                 MapList[x, y].hasBeenScouted = tilesSaved[x, y].hasBeenScouted;
 
-                MapList[x, y].UpdateTileLook();
                 MapList[x, y].updateGraphic();
             }
         }
+        Map.instance.refreshAllTiles();
     }
 }

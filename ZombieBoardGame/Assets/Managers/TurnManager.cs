@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
@@ -18,15 +19,20 @@ public class TurnManager : MonoBehaviour
         instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
-        
+        StartCoroutine(waitToStartCurrentTurnSection());
     }
 
     public void gameOver()
     {
         gameOverPanel.SetActive(true);
         gameOverTurnSurvivedText.text = "You survived until day : " + currentTurn;
+    }
+
+    public void mainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void endDay()
@@ -46,12 +52,17 @@ public class TurnManager : MonoBehaviour
         else
         {
             ActionList.instance.endTurn();
-            //call save to all save functions
-            SaveDataManager.instance.saveGame();
             stateOfTurn = TurnState.Morning;
             currentTurn++;
             //save
+            SaveDataManager.instance.saveGame();
         }
+        StartCoroutine(waitToStartCurrentTurnSection());
+    }
+
+    private IEnumerator waitToStartCurrentTurnSection()
+    {
+        yield return new WaitForSeconds(0.1f);
         startCurrentTurnSection();
     }
 

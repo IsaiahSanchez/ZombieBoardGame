@@ -45,11 +45,16 @@ public class TileSpawner : MonoBehaviour
             Debug.Log("File found at : " + Application.persistentDataPath.ToString() + "/gamesave.save" + " Now Loading");
             StartCoroutine(waitToLoadGame());
         }
+        else
+        {
+            //if this is first time loading game then we need to popup the colony name picker.
+            MainBase.instance.displayColonyNameTab();
+        }
     }
 
     private IEnumerator waitToLoadGame()
     {
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.075f);
         SaveDataManager.instance.loadGame();
     }
 

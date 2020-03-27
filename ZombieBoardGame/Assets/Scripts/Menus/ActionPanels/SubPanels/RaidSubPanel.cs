@@ -20,7 +20,7 @@ public class RaidSubPanel : ActionSubPanel
         }
         float temp = ((numPeople * PeopleCapabilities.numZombiesOnePersonCanHandle)
             + (numberOfArmedPeople * (PeopleCapabilities.weaponKillModifier))) / Map.instance.getTileAt(currentXLoc, currentYLoc).numberOfZombiesOccupying;
-        ChanceText.text = "" + Mathf.Clamp(temp, 0, 1f) * 100 + "%";
+        ChanceText.text = "" + (int)(Mathf.Clamp(temp, 0, 1f) * 100) + "%";
     }
 
     public override void submitInfoToActionList()

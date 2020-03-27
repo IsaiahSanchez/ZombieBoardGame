@@ -14,6 +14,17 @@ public class SaveDataManager : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+            {
+                File.Delete(Application.persistentDataPath + "/gamesave.save");
+            }
+        }
+    }
+
     public void saveGame()
     {
         //create save data objects
@@ -23,7 +34,11 @@ public class SaveDataManager : MonoBehaviour
         //save actions
         saveData.savedAction = saveActions(saveData);
         //save misc
-
+        MainBase myBase = MainBase.instance;
+        saveData.colonyName = myBase.colonyName;
+        saveData.numSurvivors = myBase.numberOfPeopleInBase;
+        saveData.numWeapons = myBase.numberOfWeaponsInBase;
+        saveData.turnNumber = TurnManager.instance.currentTurn;
 
         //finalize save
         BinaryFormatter bf = new BinaryFormatter();
@@ -52,7 +67,11 @@ public class SaveDataManager : MonoBehaviour
         //load actions
         loadActions(saveData);
         //load misc
-
+        MainBase myBase = MainBase.instance;
+        myBase.colonyName = saveData.colonyName;
+        myBase.numberOfPeopleInBase = saveData.numSurvivors;
+        myBase.numberOfWeaponsInBase = saveData.numWeapons;
+        TurnManager.instance.currentTurn = saveData.turnNumber;
     }
 
     private SaveTile[,] saveMap(SaveData data)

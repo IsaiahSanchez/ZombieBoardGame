@@ -9,6 +9,8 @@ public class MainBase : MonoBehaviour
     public static MainBase instance;
 
     [SerializeField] private TextMeshProUGUI NameOfColony, PeopleText, WeaponsText, TurnText;
+    [SerializeField] private GameObject colonyNameTab;
+    [SerializeField] private TextMeshProUGUI inputName;
 
     public string colonyName = "";
     public int numberOfPeopleInBase = 4;
@@ -27,5 +29,19 @@ public class MainBase : MonoBehaviour
         PeopleText.text = numberOfPeopleInBase.ToString();
         WeaponsText.text = numberOfWeaponsInBase.ToString();
         TurnText.text = TurnManager.instance.currentTurn.ToString();
+    }
+
+    public void displayColonyNameTab()
+    {
+        colonyNameTab.SetActive(true);
+    }
+
+    public void submitColonyNameChange()
+    {
+        if (inputName != null)
+        {
+            colonyName = inputName.text;
+            colonyNameTab.SetActive(false);
+        }
     }
 }
