@@ -49,6 +49,8 @@ public class TileSpawner : MonoBehaviour
         {
             //if this is first time loading game then we need to popup the colony name picker.
             MainBase.instance.displayColonyNameTab();
+            //set camera position to the closest tile that is owned by the player
+            Map.instance.setPlayerCameraToMiddleMostBaseTile();
         }
     }
 
@@ -56,6 +58,7 @@ public class TileSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(.075f);
         SaveDataManager.instance.loadGame();
+        Map.instance.setPlayerCameraToMiddleMostBaseTile();
     }
 
     private void pickMapTile(int x , int y)

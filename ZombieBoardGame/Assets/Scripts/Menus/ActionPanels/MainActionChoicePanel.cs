@@ -18,12 +18,30 @@ public class MainActionChoicePanel : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI tileTypeText;
 
+    [SerializeField] private GameObject highlightImage;
+
     private int currentX, currentY;
     private GameObject currentOpenPanel = null;
+    private bool aTileIsSelected = false;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Update()
+    {
+        if (aTileIsSelected)
+        {
+            Debug.Log(currentX + " " + currentY);
+            //handle showing a selection image on the currently selected tile
+            highlightImage.SetActive(true);
+            highlightImage.transform.position = Map.instance.getTileAt(currentX, currentY).gameObject.transform.position;
+        }
+        else
+        {
+            highlightImage.SetActive(false);
+        }
     }
 
     public void openMainChoicePanel(int xIndex, int yIndex)
@@ -57,6 +75,7 @@ public class MainActionChoicePanel : MonoBehaviour
                 settleButton.enabled = false;
             }
 
+            aTileIsSelected = true;
             //check cases for each different situation
             //if havent scouted then you shouldn't be able to click settle and maybe even raid?
             //if you have already scouted then you don't need to again
@@ -67,6 +86,11 @@ public class MainActionChoicePanel : MonoBehaviour
     private string findOutWhatTileType(int x, int y)
     {
         return Map.instance.getTileAt(x, y).tileType.ToString();
+    }
+
+    public void cancelSelection()
+    {
+        aTileIsSelected = false;
     }
 
     public void closeCurrentPanel()

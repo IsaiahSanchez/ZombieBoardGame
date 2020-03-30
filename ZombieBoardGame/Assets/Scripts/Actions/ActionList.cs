@@ -58,6 +58,7 @@ public class ActionList : MonoBehaviour
                 currentSavedAction.missionType = actionsSaved[index].missionType;
 
                 addAction(currentSavedAction);
+                Map.instance.getTileAt(currentSavedAction.tileXCoord, currentSavedAction.tileYCoord).updateMissionActiveGraphic(true);
             }
         }
     }
@@ -210,6 +211,9 @@ public class ActionList : MonoBehaviour
             {
                 peopleChange.text = "You have settled this area and built walls to protect your people";        
             }
+
+            //update the current tiles picture to show that it is not in a mission anymore
+            Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).updateMissionActiveGraphic(false);
         }
         else
         {
@@ -217,6 +221,8 @@ public class ActionList : MonoBehaviour
             MainActionChoicePanel.instance.closeCurrentPanel();
             TurnManager.instance.advanceDay();
         }
+
+        Map.instance.checkIfMapIsOwnedByPlayer();
     }
 
     private float determineChanceOfSuccess(Action thisAction)

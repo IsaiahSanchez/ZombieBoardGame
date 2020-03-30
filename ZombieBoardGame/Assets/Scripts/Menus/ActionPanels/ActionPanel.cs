@@ -131,7 +131,9 @@ public class ActionPanel : MonoBehaviour
         MainBase.instance.numberOfWeaponsInBase -= numberOfWeapons;
         //input into the list
         ActionList.instance.addAction(action);
+        Map.instance.getTileAt(currentXCoord, currentYCoord).updateMissionActiveGraphic(true);
         MainActionChoicePanel.instance.closeCurrentPanel();
+        MainActionChoicePanel.instance.cancelSelection();
         //show some feedback?
     }
 

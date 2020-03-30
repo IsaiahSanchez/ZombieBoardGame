@@ -32,6 +32,7 @@ public class TurnManager : MonoBehaviour
 
     public void mainMenu()
     {
+        SaveDataManager.instance.deleteSave();
         SceneManager.LoadScene(0);
     }
 

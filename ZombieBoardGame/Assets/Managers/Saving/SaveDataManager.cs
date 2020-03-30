@@ -18,10 +18,15 @@ public class SaveDataManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
-            {
-                File.Delete(Application.persistentDataPath + "/gamesave.save");
-            }
+            deleteSave();
+        }
+    }
+
+    public void deleteSave()
+    {
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            File.Delete(Application.persistentDataPath + "/gamesave.save");
         }
     }
 

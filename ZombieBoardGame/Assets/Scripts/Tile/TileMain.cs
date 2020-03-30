@@ -18,7 +18,7 @@ public class TileMain : MonoBehaviour
     public bool hasMissionActiveCurrently = false;
 
     [SerializeField] private SpriteRenderer mySprite;
-    [SerializeField] private GameObject northWall, eastWall, southWall, westWall, fogOfWar;
+    [SerializeField] private GameObject northWall, eastWall, southWall, westWall, fogOfWar, missionInProgressGraphic;
 
     private void Start()
     {
@@ -57,6 +57,18 @@ public class TileMain : MonoBehaviour
             {
                 MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
             }
+        }
+    }
+
+    public void updateMissionActiveGraphic(bool shouldBeActive)
+    {
+        if (shouldBeActive)
+        {
+            missionInProgressGraphic.SetActive(true);
+        }
+        else
+        {
+            missionInProgressGraphic.SetActive(false);
         }
     }
 
@@ -196,7 +208,7 @@ public class TileMain : MonoBehaviour
                     currentMap.getTileAt(xLocation + 1, yLocation - 1).fogOfWar.SetActive(false);
                 }
 
-                if (yLocation < Map.instance.MapList.Length - 2)
+                if (yLocation < currentMap.mapSize - 1)
                 {
                     currentMap.getTileAt(xLocation + 1, yLocation + 1).fogOfWar.SetActive(false);
                 }
