@@ -165,6 +165,7 @@ public class ActionList : MonoBehaviour
             }
             else
             {
+                CameraShake.instance.addShake(.1f, .1f, .1f, .25f);
                 Content.text = "Mission was a failure! There were great losses.";
                 lastMissionWasSuccessful = false;
                 numPeopleChange = (int)((1f - chanceOfSuccessValue) * currentAction.numberOfPeopleSent)*-1;

@@ -17,10 +17,44 @@ public class SettleSubPanel : ActionSubPanel
         }
     }
 
+    public override void enable()
+    {
+        base.enable();
+        numPeople = 3;
+        numPeopleText.text = numPeople.ToString();
+        updateChance();
+    }
+
+    public override void tryAddNumPeople(int amtToChange)
+    {
+        numPeople += amtToChange;
+        if (numPeople < 3)
+        {
+            numPeople += (amtToChange * -1);
+        }
+        else if (numPeople > 3)
+        {
+            numPeople = 3;
+        }
+        //do the check to see if we are trying to send more people than we have.
+
+        //update numPeople
+        numPeopleText.text = numPeople.ToString();
+        updateChance();
+    }
+
     public override void submitInfoToActionList()
     {
-        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
-        parent.startAction(MissionType.settle, numPeople, numWeapons);
+        if (numPeople < MainBase.instance.numberOfPeopleInBase)
+        {
+            Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
+            parent.startAction(MissionType.settle, numPeople, numWeapons);
+        }
+        else
+        {
+            //make error noise and shake screen
+            CameraShake.instance.addShake(.1f, .1f, .1f, .25f);
+        }
     }
 
 }

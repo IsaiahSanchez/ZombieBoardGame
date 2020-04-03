@@ -26,23 +26,30 @@ public class NightManager : MonoBehaviour
         }
         else
         {
+            CameraShake.instance.addShake(.1f, .1f, .1f, .5f);
             resultsText.text = "Your colony had a breach what a disaster!";
             //roll people lost with some sort of chance mech?
-            int numPeopleLost = (int)Random.Range(1, (MainBase.instance.numberOfWalls / 2) * difficultyMod);
+            StartCoroutine(waitToCheckForGameOver());
+        }
+    }
 
-            if (numPeopleLost >= MainBase.instance.numberOfPeopleInBase)
-            {
-                //gameover
-                peopleLostText.text = "You lost " + numPeopleLost + " people in the night!";
-                MainBase.instance.numberOfPeopleInBase -= numPeopleLost;
+    public IEnumerator waitToCheckForGameOver()
+    {
+        yield return new WaitForSeconds(.6f);
+        int numPeopleLost = (int)Random.Range(1, (MainBase.instance.numberOfWalls / 2) * difficultyMod);
 
-                TurnManager.instance.gameOver();
-            }
-            else
-            {
-                peopleLostText.text = "You lost " + numPeopleLost + " people in the night!";
-                MainBase.instance.numberOfPeopleInBase -= numPeopleLost;
-            }
+        if (numPeopleLost >= MainBase.instance.numberOfPeopleInBase)
+        {
+            //gameover
+            peopleLostText.text = "You lost " + numPeopleLost + " people in the night!";
+            MainBase.instance.numberOfPeopleInBase -= numPeopleLost;
+
+            TurnManager.instance.gameOver();
+        }
+        else
+        {
+            peopleLostText.text = "You lost " + numPeopleLost + " people in the night!";
+            MainBase.instance.numberOfPeopleInBase -= numPeopleLost;
         }
     }
 

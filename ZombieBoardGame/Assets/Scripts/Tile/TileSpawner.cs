@@ -168,19 +168,68 @@ public class TileSpawner : MonoBehaviour
 
     private void setPlayerSpawnArea()
     {
+        Map currentMap = Map.instance;
         int xRand = Random.Range(2, mapSize - 2);
         int yRand = Random.Range(2, mapSize - 2);
 
-        TileMain startingTile = Map.instance.getTileAt(xRand, yRand);
+        TileMain startingTile = currentMap.getTileAt(xRand, yRand);
         startingTile.init(xRand, yRand, TileType.Suburbs, TypeInformations[0].tileSprite);
         startingTile.isPartOfColony = true;
         startingTile.numberOfZombiesOccupying = 0;
         startingTile.numberOfSurvivors = 0;
         startingTile.numberOfWeapons = 0;
-        //make camera look at the starting tile
-        Map.instance.refreshAllTiles();
+        
 
         //going to create the 8 tiles around the player as kind of a starter learning experience
+        //Temp populate tile going to have set numbers later for each of the new tiles
+        TileMain currentTile = currentMap.getTileAt(xRand + 1, yRand + 1);
+        currentTile.init(xRand + 1, yRand + 1, TileType.School, TypeInformations[1].tileSprite);
+        currentTile.populateTile(4, 0, 12);
+        currentMap.addTileAt(xRand + 1, yRand + 1, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand + 1, yRand);
+        currentTile.init(xRand + 1, yRand, TileType.Suburbs, TypeInformations[0].tileSprite);
+        currentTile.populateTile(0, 2, 5);
+        currentMap.addTileAt(xRand + 1, yRand, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand + 1, yRand - 1);
+        currentTile.init(xRand + 1, yRand - 1, TileType.Suburbs, TypeInformations[0].tileSprite);
+        currentTile.populateTile(1, 0, 2);
+        currentMap.addTileAt(xRand + 1, yRand - 1, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand, yRand - 1);
+        currentTile.init(xRand, yRand - 1, TileType.PoliceStation, TypeInformations[2].tileSprite);
+        currentTile.populateTile(0, 3, 11);
+        currentMap.addTileAt(xRand, yRand - 1, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand - 1, yRand - 1);
+        currentTile.init(xRand - 1, yRand - 1, TileType.Suburbs, TypeInformations[0].tileSprite);
+        currentTile.populateTile(1, 0, 1);
+        currentMap.addTileAt(xRand - 1, yRand - 1, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand - 1, yRand);
+        currentTile.init(xRand - 1, yRand, TileType.Offices, TypeInformations[3].tileSprite);
+        currentTile.populateTile(1, 2, 15);
+        currentMap.addTileAt(xRand - 1, yRand, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand - 1, yRand + 1);
+        currentTile.init(xRand - 1, yRand + 1, TileType.Hospital, TypeInformations[4].tileSprite);
+        currentTile.populateTile(4, 0, 12);
+        currentMap.addTileAt(xRand - 1, yRand + 1, currentTile);
+
+
+        currentTile = currentMap.getTileAt(xRand, yRand + 1);
+        currentTile.init(xRand, yRand + 1, TileType.Suburbs, TypeInformations[0].tileSprite);
+        currentTile.populateTile(0, 0, 1);
+        currentMap.addTileAt(xRand, yRand + 1, currentTile);
+
+        currentMap.refreshAllTiles();
     }
 
     private void spawnBoundaries()
