@@ -10,7 +10,7 @@ public class MainBase : MonoBehaviour
     public static MainBase instance;
 
     [SerializeField] private TextMeshProUGUI NameOfColony, PeopleText, WeaponsText, TurnText;
-    [SerializeField] private GameObject colonyNameTab;
+    [SerializeField] private GameObject colonyNameTab, tutorialTab;
     [SerializeField] private TextMeshProUGUI inputName;
 
     public bool isTypingName = false;
@@ -53,6 +53,7 @@ public class MainBase : MonoBehaviour
             colonyName = inputName.text;
             colonyNameTab.SetActive(false);
             isTypingName = false;
+            tutorialTab.SetActive(true);
         }
     }
 
