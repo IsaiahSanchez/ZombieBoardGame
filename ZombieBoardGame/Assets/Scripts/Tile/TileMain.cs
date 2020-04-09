@@ -7,6 +7,8 @@ public class TileMain : MonoBehaviour
     public int xLocation = 0;
     public int yLocation = 0;
 
+    [SerializeField] private GameObject clickedSprite;
+
     public TileType tileType = TileType.None;
     public int numberOfZombiesOccupying = 0;
     public int numberOfSurvivors = 0;
@@ -19,10 +21,10 @@ public class TileMain : MonoBehaviour
 
     [SerializeField] private SpriteRenderer mySprite;
     [SerializeField] private GameObject northWall, eastWall, southWall, westWall, fogOfWar, missionInProgressGraphic;
+    [SerializeField] private GameObject personGraphic, weaponGraphic;
 
     private void Start()
     {
-            
     }
 
     public void init(int xLoc, int yloc, TileType typeShouldBe, Sprite graphic)
@@ -48,16 +50,68 @@ public class TileMain : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && fogOfWar.activeSelf == false && isPartOfColony == false && hasMissionActiveCurrently == false)
+        if (hasBeenScouted)
+        {
+            if (numberOfSurvivors > 0)
+            {
+                personGraphic.SetActive(true);
+            }
+            else
+            {
+                personGraphic.SetActive(false);
+            }
+
+            if (numberOfWeapons > 0)
+            {
+                weaponGraphic.SetActive(true);
+            }
+            else
+            {
+                weaponGraphic.SetActive(false);
+            }
+        }
+
+        if (MainBase.instance.isTypingName == false)
         {
             Vector2 mouseAim = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-            if (mouseAim.x < transform.position.x + .4f && mouseAim.x > transform.position.x - .4f 
+
+            if (mouseAim.x < transform.position.x + .4f && mouseAim.x > transform.position.x - .4f
                 && mouseAim.y < transform.position.y + .4f && mouseAim.y > transform.position.y - .4f
                 && Input.mousePosition.x < 1460 && Input.mousePosition.y > 170f)
             {
-                MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
+                //highlight
+                if (isPartOfColony == false && fogOfWar.activeSelf == false)
+                {
+                    transform.localScale = new Vector2(1.1f, 1.1f);
+                    //maybe make a sound
+                }
+            }
+            else
+            {
+                //unhighlight
+                transform.localScale = new Vector2(1f, 1f);
+                //maybe make a sound
+            }
+
+            if (Input.GetMouseButtonDown(0) && fogOfWar.activeSelf == false && isPartOfColony == false && hasMissionActiveCurrently == false)
+            {
+                mouseAim = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                if (mouseAim.x < transform.position.x + .4f && mouseAim.x > transform.position.x - .4f
+                    && mouseAim.y < transform.position.y + .4f && mouseAim.y > transform.position.y - .4f
+                    && Input.mousePosition.x < 1460 && Input.mousePosition.y > 170f)
+                {
+                    MainActionChoicePanel.instance.openMainChoicePanel(xLocation, yLocation);
+                    StartCoroutine(flashTile());
+                }
             }
         }
+    }
+
+    private IEnumerator flashTile()
+    {
+        GameObject temp = Instantiate(clickedSprite, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Destroy(temp);
     }
 
     public void updateMissionActiveGraphic(bool shouldBeActive)

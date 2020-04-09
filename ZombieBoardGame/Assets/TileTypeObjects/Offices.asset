@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Offices
   m_EditorClassIdentifier: 
   tileType: 3
-  tileSprite: {fileID: 21300000, guid: aaf66fca8a920ad438ea3b948b74486d, type: 3}
+  tileSprite: {fileID: 21300000, guid: 5f1b179c9c54536499f3d1b3c2229aff, type: 3}
   chanceOfZombies: 1
   maximumNumberOfZombies: 20
-  chanceOfSurvivors: 0.1
+  chanceOfSurvivors: 0.7
   maxNumberOfSurvivors: 1
-  chanceOfWeapons: 0.5
+  chanceOfWeapons: 0.7
   maxNumberOfWeapons: 5

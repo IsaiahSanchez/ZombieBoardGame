@@ -29,7 +29,14 @@ public class ScoutSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
-        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
-        parent.startAction(MissionType.scout, numPeople, numWeapons);
+        if (numPeople <= MainBase.instance.numberOfPeopleInBase)
+        {
+            Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
+            parent.startAction(MissionType.scout, numPeople, numWeapons);
+        }
+        else
+        {
+            CameraShake.instance.addShake(.1f, .1f, .1f, .2f);
+        }
     }
 }

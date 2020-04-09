@@ -57,22 +57,23 @@ public class MainActionChoicePanel : MonoBehaviour
 
             if (Map.instance.getTileAt(xIndex, yIndex).hasBeenScouted == true)
             {
-                scoutButton.enabled = false;
-                raidButton.enabled = true;
+                scoutButton.interactable = false;
                 if (Map.instance.getTileAt(xIndex, yIndex).numberOfZombiesOccupying > 0)
                 {
-                    settleButton.enabled = false;
+                    raidButton.interactable = true;
+                    settleButton.interactable = false;
                 }
                 else
                 {
-                    settleButton.enabled = true;
+                    settleButton.interactable = true;
+                    raidButton.interactable = false;
                 }
             }
             else
             {
-                scoutButton.enabled = true;
-                raidButton.enabled = false;
-                settleButton.enabled = false;
+                scoutButton.interactable = true;
+                raidButton.interactable = false;
+                settleButton.interactable = false;
             }
 
             aTileIsSelected = true;
@@ -80,6 +81,8 @@ public class MainActionChoicePanel : MonoBehaviour
             //if havent scouted then you shouldn't be able to click settle and maybe even raid?
             //if you have already scouted then you don't need to again
             //stuff like that
+
+            AudioManager.instance.playSound("page", new Vector2(0, 0));
         }
     }
 
@@ -91,6 +94,7 @@ public class MainActionChoicePanel : MonoBehaviour
     public void cancelSelection()
     {
         aTileIsSelected = false;
+        AudioManager.instance.playSound("page", new Vector2(0, 0));
     }
 
     public void closeCurrentPanel()
@@ -105,18 +109,21 @@ public class MainActionChoicePanel : MonoBehaviour
     {
         morningPanel.SetActive(true);
         currentOpenPanel = morningPanel;
+        AudioManager.instance.playSound("page", new Vector2(0, 0));
     }
 
     public void openDuskPanel()
     {
         tempDuskPanel.SetActive(true);
         currentOpenPanel = tempDuskPanel;
+        AudioManager.instance.playSound("page", new Vector2(0, 0));
     }
 
     public void openNightPanel()
     {
         tempNightPanel.SetActive(true);
         currentOpenPanel = tempNightPanel;
+        AudioManager.instance.playSound("page", new Vector2(0, 0));
     }
 
     public void openPanel(int panelIndex)
@@ -145,5 +152,6 @@ public class MainActionChoicePanel : MonoBehaviour
             temp.currentYCoord = currentY;
             temp.fillPanelData();
         }
+        AudioManager.instance.playSound("page", new Vector2(0, 0));
     }
 }

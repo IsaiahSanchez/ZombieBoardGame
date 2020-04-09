@@ -7,7 +7,7 @@ public class ActionList : MonoBehaviour
 {
     public static ActionList instance;
 
-    [SerializeField] private TextMeshProUGUI Title, MissionTypeText, ChanceOfSuccess, Content, peopleChange, weaponsChange;
+    [SerializeField] private TextMeshProUGUI Title, MissionTypeText, ChanceOfSuccess, Content, peopleChange, weaponsChange, successText;
 
     private Action currentAction = null;
     private int numPeopleChange = 0;
@@ -99,6 +99,7 @@ public class ActionList : MonoBehaviour
     {
         if (currentAction != null)
         {
+            AudioManager.instance.playSound("page", new Vector2(0, 0));
             //transfer the people and weapons over to the main base
             MainBase.instance.numberOfPeopleInBase += numPeopleChange;
             MainBase.instance.numberOfWeaponsInBase += numWeaponsChange;
@@ -133,11 +134,28 @@ public class ActionList : MonoBehaviour
 
         if (tempActionQueue.Count > 0)
         {
+            StartCoroutine(flashTitle());
+
             numWeaponsChange = 0;
             numPeopleChange = 0;
 
             //dequeue an object and look at it
             currentAction = tempActionQueue.Dequeue();
+
+            if (currentAction.missionType == MissionType.scout)
+            {
+                successText.text = "The " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType.ToString() + " was scouted!";
+            }
+
+            if (currentAction.missionType == MissionType.raid)
+            {
+                successText.text = "All zombies in this " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType.ToString() + " were eliminated!";
+            }
+
+            if (currentAction.missionType == MissionType.settle)
+            {
+                successText.text = "The " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType.ToString() + " was settled!";
+            }
 
             //Do maths based on the mission type to figure out how it went.
             //sets chances of success based off mission type
@@ -146,8 +164,8 @@ public class ActionList : MonoBehaviour
             float rand = Random.Range(0, 1f);
             //populate the correct data fields based on the type of mission (make sure you take in the fields at the top of this object???)
             Title.text = "Morning";
-            MissionTypeText.text = "" + currentAction.missionType.ToString() + " : " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType;
-            ChanceOfSuccess.text = "The chance of success on this mission was : " + (chanceOfSuccessValue * 100f) + "%";
+            MissionTypeText.text = "" + UppercaseFirst(currentAction.missionType.ToString()) + " : " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType;
+            ChanceOfSuccess.text = "The chance of success on this mission was : " + (int)(chanceOfSuccessValue * 100f) + "%";
 
             if (rand < chanceOfSuccessValue)
             {
@@ -158,14 +176,16 @@ public class ActionList : MonoBehaviour
                     numPeopleChange = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors;
                 }
 
-                if ((Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.raid) == true || (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfSurvivors > 0 && currentAction.missionType == MissionType.settle) == true) 
+                if ((Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfWeapons > 0 && currentAction.missionType == MissionType.raid) == true || (Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfWeapons > 0 && currentAction.missionType == MissionType.settle) == true) 
                 {
                     numWeaponsChange = Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).numberOfWeapons;
                 }
+                //update the current tiles picture to show that it is not in a mission anymore
+                Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).updateMissionActiveGraphic(false);
             }
             else
             {
-                CameraShake.instance.addShake(.1f, .1f, .1f, .25f);
+                CameraShake.instance.addShake(.25f, .25f, .25f, .25f);
                 Content.text = "Mission was a failure! There were great losses.";
                 lastMissionWasSuccessful = false;
                 numPeopleChange = (int)((1f - chanceOfSuccessValue) * currentAction.numberOfPeopleSent)*-1;
@@ -183,6 +203,9 @@ public class ActionList : MonoBehaviour
                         numWeaponsChange = -1;
                     }
                 }
+                successText.text = "";
+                //update the current tiles picture to show that it is not in a mission anymore
+                Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).updateMissionActiveGraphic(false);
             }
 
             if (Mathf.Abs(numPeopleChange) > 0)
@@ -203,18 +226,11 @@ public class ActionList : MonoBehaviour
                 weaponsChange.text = "";
             }
 
-            if (currentAction.missionType == MissionType.scout)
-            {
-                peopleChange.text = "The " + Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).tileType.ToString() + " was scouted!";
-            }
+            
 
-            if (currentAction.missionType == MissionType.settle)
-            {
-                peopleChange.text = "You have settled this area and built walls to protect your people";        
-            }
+            
 
-            //update the current tiles picture to show that it is not in a mission anymore
-            Map.instance.getTileAt(currentAction.tileXCoord, currentAction.tileYCoord).updateMissionActiveGraphic(false);
+            
         }
         else
         {
@@ -224,6 +240,24 @@ public class ActionList : MonoBehaviour
         }
 
         Map.instance.checkIfMapIsOwnedByPlayer();
+    }
+
+    private IEnumerator flashTitle()
+    {
+        MissionTypeText.color = new Color(1f, 1f, 1f);
+        yield return new WaitForSeconds(.1f);
+        MissionTypeText.color = new Color(0, 0, 0);
+    }
+
+    private string UppercaseFirst(string s)
+    {
+        // Check for empty string.
+        if (string.IsNullOrEmpty(s))
+        {
+            return string.Empty;
+        }
+        // Return char and concat substring.
+        return char.ToUpper(s[0]) + s.Substring(1);
     }
 
     private float determineChanceOfSuccess(Action thisAction)

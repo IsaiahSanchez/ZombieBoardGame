@@ -22,6 +22,7 @@ public class SettleSubPanel : ActionSubPanel
         base.enable();
         numPeople = 3;
         numPeopleText.text = numPeople.ToString();
+        numZombiesText.text = "0";
         updateChance();
     }
 
@@ -41,11 +42,12 @@ public class SettleSubPanel : ActionSubPanel
         //update numPeople
         numPeopleText.text = numPeople.ToString();
         updateChance();
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
     }
 
     public override void submitInfoToActionList()
     {
-        if (numPeople < MainBase.instance.numberOfPeopleInBase)
+        if (numPeople <= MainBase.instance.numberOfPeopleInBase)
         {
             Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
             parent.startAction(MissionType.settle, numPeople, numWeapons);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MainBase : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MainBase : MonoBehaviour
     [SerializeField] private GameObject colonyNameTab;
     [SerializeField] private TextMeshProUGUI inputName;
 
+    public bool isTypingName = false;
     public string colonyName = "";
     public int numberOfPeopleInBase = 4;
     public int numberOfWeaponsInBase = 2;
@@ -25,6 +27,12 @@ public class MainBase : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && TurnManager.instance.stateOfTurn == TurnState.Day)
+        {
+            AudioManager.instance.playSound("page", new Vector2(0, 0));
+            MainActionChoicePanel.instance.closeCurrentPanel();
+        }
+
         NameOfColony.text = colonyName;
         PeopleText.text = numberOfPeopleInBase.ToString();
         WeaponsText.text = numberOfWeaponsInBase.ToString();
@@ -33,15 +41,23 @@ public class MainBase : MonoBehaviour
 
     public void displayColonyNameTab()
     {
+        isTypingName = true;
         colonyNameTab.SetActive(true);
     }
 
     public void submitColonyNameChange()
     {
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
         if (inputName != null)
         {
             colonyName = inputName.text;
             colonyNameTab.SetActive(false);
+            isTypingName = false;
         }
+    }
+
+    public void goToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

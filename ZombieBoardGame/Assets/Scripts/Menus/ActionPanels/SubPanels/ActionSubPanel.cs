@@ -46,6 +46,7 @@ public class ActionSubPanel : MonoBehaviour
         //update numPeople
         numPeopleText.text = numPeople.ToString();
         updateChance();
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
     }
 
     public virtual void tryAddNumWeapons(int amtToChange)
@@ -64,6 +65,7 @@ public class ActionSubPanel : MonoBehaviour
         //update numWeapon
         numWeaponsText.text = numWeapons.ToString();
         updateChance();
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
     }
 
     protected virtual void updateChance()
@@ -74,7 +76,7 @@ public class ActionSubPanel : MonoBehaviour
 
     public virtual void submitInfoToActionList()
     {
-        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
-        parent.startAction(MissionType.none, numPeople, numWeapons);
+            Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
+            parent.startAction(MissionType.none, numPeople, numWeapons);   
     }
 }

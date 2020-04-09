@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: School
   m_EditorClassIdentifier: 
   tileType: 1
-  tileSprite: {fileID: 21300000, guid: a8d1c13daf2c6334dae47babbcfbbe76, type: 3}
+  tileSprite: {fileID: 21300000, guid: 6e1f2bd19b75f444c8523bf683ea4f73, type: 3}
   chanceOfZombies: 0.95
   maximumNumberOfZombies: 15
   chanceOfSurvivors: 1
   maxNumberOfSurvivors: 4
-  chanceOfWeapons: 0.25
+  chanceOfWeapons: 0.33
   maxNumberOfWeapons: 4

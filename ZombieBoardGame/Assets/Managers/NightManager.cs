@@ -8,7 +8,7 @@ public class NightManager : MonoBehaviour
     public static NightManager instance;
 
     [SerializeField] private TextMeshProUGUI resultsText, peopleLostText;
-    [SerializeField] private float difficultyMod = 1f;
+    [SerializeField] private float difficultyMod = .7f;
 
     private void Awake()
     {
@@ -41,9 +41,11 @@ public class NightManager : MonoBehaviour
         if (numPeopleLost >= MainBase.instance.numberOfPeopleInBase)
         {
             //gameover
-            peopleLostText.text = "You lost " + numPeopleLost + " people in the night!";
+            peopleLostText.text = "You lost " + MainBase.instance.numberOfPeopleInBase + " people in the night!";
             MainBase.instance.numberOfPeopleInBase -= numPeopleLost;
 
+
+            yield return new WaitForSeconds(.5f);
             TurnManager.instance.gameOver();
         }
         else

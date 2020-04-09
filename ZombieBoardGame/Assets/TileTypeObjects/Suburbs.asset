@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Suburbs
   m_EditorClassIdentifier: 
   tileType: 0
-  tileSprite: {fileID: 21300000, guid: 5b313691e4837b146bbe9d9c346a489f, type: 3}
+  tileSprite: {fileID: 21300000, guid: 057ba644caedc5d47bb2ee0bddf930af, type: 3}
   chanceOfZombies: 0.5
   maximumNumberOfZombies: 7
   chanceOfSurvivors: 0.65

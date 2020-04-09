@@ -23,14 +23,14 @@ public class DuskManager : MonoBehaviour
 
         if (((float)peopleDef / difficultyScale) >= wallsToCover)
         {
-            currentChance = .95f;
+            currentChance = .99f;
         }
         else
         {
             currentChance = ((float)peopleDef / difficultyScale)/ wallsToCover;
         }
 
-        chanceText.text = "Chance of success is " + (currentChance*100) + "%";
+        chanceText.text = "Chance of success is " + (int)(currentChance*100) + "%";
     }
 
 }

@@ -28,11 +28,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
         SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
     {
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
         Application.Quit();
     }
 
@@ -40,6 +42,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
         {
+            AudioManager.instance.playSound("knock", new Vector2(0, 0));
             File.Delete(Application.persistentDataPath + "/gamesave.save");
             deleteButton.SetActive(false);
         }

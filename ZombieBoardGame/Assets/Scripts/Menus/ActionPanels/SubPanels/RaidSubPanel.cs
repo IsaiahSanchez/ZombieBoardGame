@@ -25,7 +25,14 @@ public class RaidSubPanel : ActionSubPanel
 
     public override void submitInfoToActionList()
     {
-        Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
-        parent.startAction(MissionType.raid, numPeople, numWeapons);
+        if (numPeople <= MainBase.instance.numberOfPeopleInBase)
+        {
+            Map.instance.getTileAt(parent.currentXCoord, parent.currentYCoord).hasMissionActiveCurrently = true;
+            parent.startAction(MissionType.raid, numPeople, numWeapons);
+        }
+        else
+        {
+            CameraShake.instance.addShake(.1f, .1f, .1f, .2f);
+        }
     }
 }
