@@ -14,14 +14,6 @@ public class SaveDataManager : MonoBehaviour
         instance = this;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            deleteSave();
-        }
-    }
-
     public void deleteSave()
     {
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))

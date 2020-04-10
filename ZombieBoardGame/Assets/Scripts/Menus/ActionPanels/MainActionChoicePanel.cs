@@ -152,6 +152,6 @@ public class MainActionChoicePanel : MonoBehaviour
             temp.currentYCoord = currentY;
             temp.fillPanelData();
         }
-        AudioManager.instance.playSound("page", new Vector2(0, 0));
+        AudioManager.instance.playSound("knock", new Vector2(0, 0));
     }
 }
